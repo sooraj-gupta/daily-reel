@@ -111,7 +111,7 @@ Only for what the user said yes to in step 0.
 
 - **Gmail and Google Calendar**: the user types `/mcp` and authorizes "claude.ai Gmail" and "claude.ai Google Calendar".
 - **Robinhood, read-only**: the user runs
-  `! claude mcp add --transport http robinhood https://agent.robinhood.com/mcp/trading`
+  `! claude mcp add --scope user --transport http robinhood-trading https://agent.robinhood.com/mcp/trading`
   then `/mcp` and signs in on Robinhood's own page. Availability may depend on Robinhood's Agentic Trading access. You will use **only the read tools listed in CLAUDE.md rule 1**. Tell the user that plainly.
 
 **Verify:** the connector's tools appear in your tool list (load them with ToolSearch).
@@ -125,6 +125,10 @@ Follow [docs/DAILY-RUN.md](docs/DAILY-RUN.md) end to end. For a first deck: 12 r
 ## 11. Morning notification (ask first)
 
 Offer a recurring 9:00 calendar event with the feed link (see "Notification" in [docs/DAILY-RUN.md](docs/DAILY-RUN.md)). Creating it changes the user's calendar, so get a clear yes.
+
+## 11b. Daily schedule (ask first)
+
+Offer the 7:00 AM headless build described in [docs/SCHEDULING.md](docs/SCHEDULING.md). It runs Claude unattended with access to the connectors the user enabled, so explain the allow-list and the limits first and get a clear yes. Prerequisites (USER ACTION): the user runs `claude` once in the repo folder and accepts "Yes, I trust this folder", then `/exit`; and Robinhood must have been added with `--scope user` (step 9). Then run `scripts/daily_run.sh --dry-run`, show the user the result (expect 9 of 9), and only then `scripts/install_schedule.sh 07:00`. The optional `sudo pmset` wake command is for the user to run.
 
 ## 12. Clean up and report
 

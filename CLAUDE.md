@@ -54,7 +54,8 @@ Use the file map below to find the owner of the behavior, read that folder's `RE
 | `pipeline/stories/` | Story files (two examples) | `pipeline/stories/README.md` |
 | `pipeline/template/` | Boilerplate copied into each render project | `pipeline/template/README.md` |
 | `pipeline/music/` | Music tracks (downloaded, not committed) | `pipeline/music/README.md` |
-| `scripts/` | `check_env.sh`, `create_tts_key.sh`, `fetch_music.sh` | `scripts/README.md` |
+| `docs/SCHEDULING.md` | The 7:00 AM headless build: install, test, allow-list, limits | itself |
+| `scripts/` | `check_env.sh`, `create_tts_key.sh`, `fetch_music.sh`, `install_schedule.sh`, `daily_run.sh` (the unattended job), `headless-settings.json` (its permissions), `daily-run-prompt.md` (its instructions), `cleanup.sh` | `scripts/README.md` |
 | `config/` | `config.example.json`; the user's real `config.json` lives at the repo root and is git-ignored | `config/README.md` |
 
 ## Conventions

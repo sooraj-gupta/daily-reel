@@ -21,7 +21,7 @@ Claude reads [`CLAUDE.md`](CLAUDE.md), follows [`SETUP.md`](SETUP.md), and check
 - **Reels made on your machine**: voice (Google Cloud Text-to-Speech), footage (Mixkit, free), rendering (HyperFrames + ffmpeg). About 50 seconds and 3 to 5 MB per reel.
 - **Personalization**: likes, dislikes and watch time are stored and read by Claude each morning.
 - **Optional private cards**: today's calendar, a Gmail summary (subjects and senders only), and a read-only portfolio snapshot.
-- **A 9:00 AM calendar alert** with a link to the feed.
+- **A 9:00 AM calendar alert** with a link to the feed, and an optional 7:00 AM headless build so the deck is ready ([docs/SCHEDULING.md](docs/SCHEDULING.md)).
 
 ## Requirements
 

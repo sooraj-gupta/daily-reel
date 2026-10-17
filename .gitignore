@@ -15,3 +15,6 @@ pipeline/cards_out/
 pipeline/uploads.json
 pipeline/music/*.mp3
 *.mp4
+.run.lock/
+.run.done
+.run-prompt.txt

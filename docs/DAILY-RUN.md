@@ -8,7 +8,7 @@ This is the procedure Claude follows each morning (or whenever the user says "ma
 
 | Part | Automated? |
 |---|---|
-| Reading connectors, writing stories, rendering, uploading | Needs a **Claude session on the user's computer** while it is awake. A session-scoped cron (`CronCreate`) works only while the session is open and expires after 7 days. A cloud routine cannot render video or use locally added connectors. |
+| Reading connectors, writing stories, rendering, uploading | Needs the **user's computer awake and logged in**. Best option: a launchd timer that starts a background interactive Claude session at 07:00 (see [SCHEDULING.md](SCHEDULING.md)); print-mode `claude -p` cannot publish because it has no Artifact tools. Alternatives: a session-scoped cron (`CronCreate`), which only works while a session is open and expires after 7 days; or running it by hand. A cloud routine cannot render video or use locally added connectors. |
 | 9:00 AM nudge | Yes, as a recurring Google Calendar event (runs on Google's servers, even if the computer is asleep). It cannot know whether new reels exist. |
 | "More" pressed on the phone | Only queues a request (`requests/pending`). A Claude session must pick it up. |
 
@@ -80,7 +80,7 @@ Also write the text cards (hand-built JSON, shapes in [PAGE.md](PAGE.md#cardsdoc
 - `intro` at order 0, e.g. "12 reels to start. Pull down or tap More for another 12. Tap to pause, double-tap to like."
 - `schedule` after the first reels, `inbox`, then `stocks` card(s).
 
-**Replacing yesterday's deck**: delete or leave old cards (they have an older `date` and are ignored). Reset `meta/state` to `{"revealed": 1}`.
+**Replacing yesterday's deck**: old cards have an older `date` and are ignored by the page. Reset `meta/state` to `{"revealed": 1}`. Delete database cards older than 3 days. Assets can only be deleted with a human confirmation, so prune old assets in an interactive session ("prune old reels"); the artifact allows 1 GiB and about 100 MB per day is used.
 
 Finally write `meta/latest` last: `{ "date": "<today ISO>", "count": <n>, "generatedAt": "<ISO>" }`.
 

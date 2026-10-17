@@ -27,7 +27,7 @@ Voice choice: set `voice` in `config.json`. The default is `en-US-Chirp3-HD-Char
 | What | Needed for | How |
 |---|---|---|
 | Gmail and Google Calendar connectors | Inbox and schedule cards, 9:00 notification | `/mcp` in Claude Code, authorize the claude.ai connectors |
-| Robinhood MCP (read-only) | Portfolio card | `claude mcp add --transport http robinhood https://agent.robinhood.com/mcp/trading`, then `/mcp`. Availability may depend on Robinhood's Agentic Trading access |
+| Robinhood MCP (read-only) | Portfolio card | `claude mcp add --scope user --transport http robinhood-trading https://agent.robinhood.com/mcp/trading`, then `/mcp`. Availability may depend on Robinhood's Agentic Trading access |
 | ntfy | Richer push than the calendar alert | Install the free iOS/Android app; pick a long random topic |
 
 ## Things we checked and did not use
