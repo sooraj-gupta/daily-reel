@@ -1,0 +1,14 @@
+{
+  "timezone": "America/Los_Angeles",
+  "notify_time": "09:00",
+  "voice": "en-US-Chirp3-HD-Charon",
+  "voice_rate": 1.2,
+  "music_volume": 0.16,
+  "reels_per_batch": 12,
+  "interests": ["ai", "tech", "bayarea", "world", "markets", "spark"],
+  "tickers": ["NVDA", "AAPL", "MSFT"],
+  "use_portfolio_from_robinhood": false,
+  "include_gmail": true,
+  "include_calendar": true,
+  "artifact_url": ""
+}

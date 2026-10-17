@@ -1,0 +1,44 @@
+{
+ "id": "example-world",
+ "kicker": "Health",
+ "source": "NPR",
+ "url": "https://www.npr.org/2026/10/16/nx-s1-6005201/health-treatment-menopause-hot-flash-night-sweats-insomnia",
+ "headline": [
+  "New rules for",
+  "*menopause",
+  "treatment"
+ ],
+ "sentences": [
+  "Doctors just updated their menopause treatment guidelines.",
+  "The American College of Obstetricians and Gynecologists issued them.",
+  "NPR reports it is the first update since 2014.",
+  "They cover symptoms like hot flashes, night sweats and insomnia.",
+  "Anyone with symptoms should talk with their own doctor."
+ ],
+ "keywords": [
+  "doctor",
+  "hospital",
+  "woman",
+  "health"
+ ],
+ "comments": [
+  {
+   "who": "The optimist",
+   "text": "A decade between updates means a lot of new evidence. Good to see it in print."
+  },
+  {
+   "who": "The practical one",
+   "text": "Guidelines are a starting point. Your own doctor tailors the plan."
+  },
+  {
+   "who": "The one who read the article",
+   "text": "It covers hot flashes, night sweats and insomnia, the symptoms people often struggle with."
+  },
+  {
+   "who": "The nerd",
+   "text": "Clinical guidelines get revised as research accumulates. 2014 was a long time ago."
+  }
+ ],
+ "topic": "world",
+ "date": "Fri Oct 16"
+}

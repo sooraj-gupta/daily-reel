@@ -1,0 +1,17 @@
+# secrets and personal config
+.env
+*.env
+config.json
+
+# generated files (rebuilt by the pipeline)
+node_modules/
+__pycache__/
+.DS_Store
+.hyperframes/
+pipeline/cache/
+pipeline/work/
+pipeline/out/
+pipeline/cards_out/
+pipeline/uploads.json
+pipeline/music/*.mp3
+*.mp4

@@ -1,0 +1,6 @@
+{
+  "name": "daily-reel-pipeline",
+  "private": true,
+  "description": "Renders vertical news reels (voiceover + stock footage + captions) with HyperFrames.",
+  "dependencies": { "hyperframes": "0.8.166" }
+}

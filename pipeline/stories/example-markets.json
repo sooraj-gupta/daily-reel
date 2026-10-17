@@ -1,0 +1,70 @@
+{
+ "id": "example-markets",
+ "topic": "markets",
+ "date": "Fri Oct 16",
+ "kicker": "Markets",
+ "source": "Yahoo Finance",
+ "url": "https://finance.yahoo.com/",
+ "headline": [
+  "AI stocks",
+  "*had a brutal",
+  "week"
+ ],
+ "sentences": [
+  "AI stocks just had a brutal week.",
+  "Super Micro is down 21%.",
+  "Palantir and AMD each lost 11%.",
+  "Nvidia slid more than 5%.",
+  "Investopedia says the Nasdaq and the S&P 500 closed sharply lower on Friday.",
+  "The AI trade is getting tested."
+ ],
+ "keywords": [
+  "stock-market",
+  "trading",
+  "finance"
+ ],
+ "bars": [
+  {
+   "kw": "micro",
+   "label": "SMCI",
+   "pct": -20.9,
+   "text": "\u221221%"
+  },
+  {
+   "kw": "palantir",
+   "label": "PLTR",
+   "pct": -11,
+   "text": "\u221211%"
+  },
+  {
+   "kw": "amd",
+   "label": "AMD",
+   "pct": -11,
+   "text": "\u221211%"
+  },
+  {
+   "kw": "nvidia",
+   "label": "NVDA",
+   "pct": -5.4,
+   "text": "\u22125%"
+  }
+ ],
+ "comments": [
+  {
+   "who": "The skeptic",
+   "text": "Every cycle someone says this time is different."
+  },
+  {
+   "who": "The nerd",
+   "text": "Super Micro down 21% in one week is a lot of volatility for a server company."
+  },
+  {
+   "who": "The practical one",
+   "text": "Weekly moves are noise until you check what you actually own."
+  },
+  {
+   "who": "The doomscroller",
+   "text": "Refreshing my portfolio every five minutes. Does not help."
+  }
+ ]
+}
