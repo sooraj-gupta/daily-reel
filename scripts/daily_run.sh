@@ -21,7 +21,7 @@ command -v claude >/dev/null || fail "claude CLI not found on PATH"
 command -v screen >/dev/null || fail "screen not found"
 cd "$ROOT" || exit 1
 DONE="$ROOT/.run.done"; rm -f "$DONE"
-sed -e "s/{{MODE}}/$MODE/g" -e "s/{{DATE}}/$(date +%F)/g" -e "s/{{LABEL}}/$(date '+%a %b %d')/g" scripts/daily-run-prompt.md > "$ROOT/.run-prompt.txt"
+sed -e "s/{{MODE}}/$MODE/g" -e "s/{{DATE}}/$(date +%F)/g" -e "s/{{LABEL}}/$(date '+%a %b %d')/g" -e "s/{{DATE_COMPACT}}/$(date +%Y%m%d)/g" scripts/daily-run-prompt.md > "$ROOT/.run-prompt.txt"
 # keep the Mac awake while the job runs (on AC power)
 caffeinate -i -s -w $$ &
 SCREENLOG="$LOGDIR/$(date +%F)-$MODE-screen.log"

@@ -32,11 +32,23 @@ Be upfront about this with the user. Do not promise unattended daily rendering.
 4. **Quotes**: `https://query1.finance.yahoo.com/v8/finance/chart/<SYMBOL>?range=5d&interval=1d` (no key). Weekly move = last price vs first close in the range; say "since Monday's close" or similar, and verify the arithmetic.
 5. **Calendar** (if enabled): list today's and tomorrow's events with the Calendar connector. Do not show the "Daily Reel" notification event.
 6. **Gmail** (if enabled): search `is:unread in:inbox newer_than:2d category:primary`. Keep **sender and subject only**; skip security alerts and promotions.
-7. **Portfolio** (if enabled): read-only Robinhood tools only (CLAUDE.md rule 1). Cards show ticker, price, percent change; never share counts or balances.
+7. **Portfolio** (if `use_portfolio_from_robinhood`): read-only Robinhood tools only (CLAUDE.md rule 1). The tools need an explicit account number and must never choose one themselves, so read `robinhood_accounts` from `config.json` (never print them). For each account call `get_equity_positions`; take the union of the symbols; skip symbols that have no Yahoo quote (for example warrants); fetch 5-day closes from Yahoo; and build the cards with one command: `python3 pipeline/portfolio_cards.py --date <today ISO> --order 35 SYM1 SYM2 ...` (tickers only; it fetches Yahoo closes, sorts worst weekly move first, balances up to 8 rows per card, and writes `pipeline/cards_out/stocks-portfolio-N.json`). Write each file to the database as `cards/<YYYYMMDD>-mine1`, `-mine2`, ... Never include quantities, cost basis or account identifiers. If `robinhood_accounts` is empty, call `get_accounts`, report which accounts exist (type and last four digits only), and fall back to the `tickers` list for this run.
 
 ## Step 2: Choose stories
 
 Aim for `reels_per_batch` reels in batch 1 and the same again in batch 2. Mix the beats, interleave them by order, and lead with the strongest story. Skip stories centered on violence against individuals or graphic crime. Use [Using ratings](#using-ratings-to-personalize) to weight beats and sources.
+
+### Avoid duplicates
+
+Never write, voice or render a story twice. `pipeline/dedupe.py` keeps a ledger of every story used (`pipeline/seen.json`, git-ignored; `produce.py` also records each rendered story). For **every** candidate, before writing anything:
+
+```bash
+python3 pipeline/dedupe.py seed            # once per run: loads all story files into the ledger
+python3 pipeline/dedupe.py check --url "<article url>" --title "<headline>"
+python3 pipeline/dedupe.py record --id <story-id> --url "<url>" --title "<headline>"     # right after choosing it
+```
+
+`duplicate` (same article URL, or near-identical title/names) means skip. `similar` (shares two or more proper names or overlapping wording, often the same event from another outlet) means skip unless the article adds materially new facts, and say why in the report. `new` means proceed. It is a heuristic, so use judgment on `similar`. Also use the article's own URL as `url`, never a homepage or feed URL.
 
 ## Step 3: Write story files
 
@@ -49,11 +61,10 @@ You may delegate story writing to subagents (one beat each). Tell them: write st
 Sequentially, one story at a time:
 
 ```bash
-cd pipeline
-python3 produce.py stories/<id>.json        # about 50 s each
+python3 pipeline/produce.py pipeline/stories/<id>.json        # about 50 s each, run from the repo root
 ```
 
-Or all stories lacking an MP4: `./render_all.sh` (it waits out a Mixkit block first).
+Or all stories lacking an MP4: `cd pipeline && ./render_all.sh` (it waits out a Mixkit block first).
 
 QA each reel: `ffprobe -v error -show_entries format=duration -of csv=p=0 out/reels/<id>.mp4` (expect 14 to 26), then look at `out/reels/<id>.jpg`. If the headline overflows or the footage is wrong, fix `headline` or `keywords` and re-run that story.
 
@@ -68,9 +79,8 @@ With the Artifact tool, `asset: true`, `url: <ARTIFACT_URL>`, and `file_paths` (
 ## Step 6: Build and write cards
 
 ```bash
-cd pipeline
-python3 make_cards.py --date 2026-10-16 --batch 1 --start 10 id1 id2 id3     # reels in batch 1, orders 10, 20, 30
-python3 make_cards.py --date 2026-10-16 --batch 2 --start 200 id4 id5        # batch 2
+python3 pipeline/make_cards.py --date 2026-10-16 --batch 1 --start 10 id1 id2 id3     # reels in batch 1, orders 10, 20, 30
+python3 pipeline/make_cards.py --date 2026-10-16 --batch 2 --start 200 id4 id5        # batch 2
 ```
 
 This writes `pipeline/cards_out/<id>.json`. Then write to the database with the `ArtifactData` tool, a `batch` action, one `set` per card, `collection: "cards"`, `doc_id: "r-<id>"`, `file_path: "<cards_out file>"` (up to 50 writes per batch; pin existing docs with `if_version`).

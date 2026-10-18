@@ -5,10 +5,22 @@
   "voice_rate": 1.2,
   "music_volume": 0.16,
   "reels_per_batch": 12,
-  "interests": ["ai", "tech", "bayarea", "world", "markets", "spark"],
-  "tickers": ["NVDA", "AAPL", "MSFT"],
+  "interests": [
+    "ai",
+    "tech",
+    "bayarea",
+    "world",
+    "markets",
+    "spark"
+  ],
+  "tickers": [
+    "NVDA",
+    "AAPL",
+    "MSFT"
+  ],
   "use_portfolio_from_robinhood": false,
   "include_gmail": true,
   "include_calendar": true,
-  "artifact_url": ""
+  "artifact_url": "",
+  "robinhood_accounts": []
 }

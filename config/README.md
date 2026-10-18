@@ -23,6 +23,7 @@ cp config/config.example.json config.json
 | `interests` | Claude (daily run) | Beats to include: `ai`, `tech`, `bayarea`, `world`, `markets`, `spark` |
 | `tickers` | Claude (daily run) | Symbols for the markets card |
 | `use_portfolio_from_robinhood` | Claude (daily run) | If true, build the portfolio card from read-only Robinhood data |
+| `robinhood_accounts` | Claude (daily run) | List of Robinhood account numbers to read, as strings. The Robinhood tools refuse to pick an account themselves, so without this the portfolio card cannot be built. Local only (config.json is git-ignored); never print these |
 | `include_gmail`, `include_calendar` | Claude (daily run) | Include the inbox and schedule cards |
 | `artifact_url` | Claude | The user's private feed URL, set after publishing |
 

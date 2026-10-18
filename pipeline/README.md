@@ -9,6 +9,8 @@ Turns story files into reels and into database cards. Plain Python 3 (standard l
 | `produce.py` | **Main entry.** `python3 produce.py stories/<id>.json` makes `out/reels/<id>.mp4`, `<id>.jpg` and `<id>.json`. Voice, footage, music, build, render, compress, poster, cleanup |
 | `make_voice.py` | Google TTS per sentence, converts to WAV, measures durations, writes `voice.wav` and `timings.json` into the given folder |
 | `build_reel.py` | Reads a spec and the timings and writes a HyperFrames project (`index.html` plus an `assets` link) |
+| `portfolio_cards.py` | Builds the portfolio stocks cards from a list of tickers (Yahoo closes; tickers only, no quantities) |
+| `dedupe.py` | Duplicate guard: ledger of used stories; `check` before writing a story, `record` after choosing it (see [../docs/DAILY-RUN.md](../docs/DAILY-RUN.md#avoid-duplicates)) |
 | `make_cards.py` | Turns finished reels into card JSON files in `cards_out/` (needs `uploads.json`) |
 | `render_all.sh` | Renders every story lacking an MP4, one at a time; waits out a Mixkit block first |
 | `package.json` | Pins `hyperframes` |
@@ -16,7 +18,7 @@ Turns story files into reels and into database cards. Plain Python 3 (standard l
 | `template/` | Boilerplate copied into each render project: [template/README.md](template/README.md) |
 | `music/` | Downloaded music (not committed): [music/README.md](music/README.md) |
 
-Generated, git-ignored folders: `cache/` (footage clips and search results), `work/` (per-story scratch), `out/` (finished reels), `cards_out/` (card documents), `node_modules/`. `uploads.json` (asset ids) is also git-ignored.
+Generated, git-ignored folders: `cache/` (footage clips and search results), `work/` (per-story scratch), `out/` (finished reels), `cards_out/` (card documents), `node_modules/`. `uploads.json` (asset ids) and `seen.json` (the duplicate ledger) are also git-ignored.
 
 ## Usage
 

@@ -110,6 +110,11 @@ os.replace(tmp, mp4)
 jpg = os.path.join(ROOT, "out", "reels", sid + ".jpg")
 subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "2.5", "-i", mp4, "-frames:v", "1", "-vf", "scale=540:-1", "-q:v", "4", jpg], check=True)
 dur = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp4]).decode())
+try:
+    sys.path.insert(0, ROOT); import dedupe
+    dedupe.record(sid, story.get("url", ""), story.get("headline_text") or " ".join(h.lstrip("*") for h in story["headline"]),
+                  text=" ".join(h.lstrip("*") for h in story["headline"]) + " " + " ".join(sentences))
+except Exception as _e: print("dedupe ledger not updated:", _e)
 meta = {k: story.get(k) for k in ("id", "topic", "kicker", "source", "url", "comments", "headline_text", "why")}
 meta.update({"headline_text": story.get("headline_text") or " ".join(h.lstrip("*") for h in story["headline"]), "mp4": mp4, "poster": jpg, "duration": round(dur, 1), "mb": round(os.path.getsize(mp4) / 1e6, 1)})
 json.dump(meta, open(os.path.join(ROOT, "out", "reels", sid + ".json"), "w"), indent=1)

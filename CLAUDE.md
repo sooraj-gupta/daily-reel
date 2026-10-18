@@ -49,6 +49,7 @@ Use the file map below to find the owner of the behavior, read that folder's `RE
 | `pipeline/produce.py` | One story JSON in, one MP4 + poster + metadata out | `pipeline/README.md` |
 | `pipeline/make_voice.py` | Google TTS per sentence, word timings | `pipeline/README.md` |
 | `pipeline/build_reel.py` | Builds the HyperFrames composition | `pipeline/README.md` |
+| `pipeline/dedupe.py` | Duplicate guard (ledger, check, record) | `pipeline/README.md` |
 | `pipeline/make_cards.py` | Finished reels to database card documents | `pipeline/README.md` |
 | `pipeline/render_all.sh` | Render every story without an MP4, sequentially | `pipeline/README.md` |
 | `pipeline/stories/` | Story files (two examples) | `pipeline/stories/README.md` |

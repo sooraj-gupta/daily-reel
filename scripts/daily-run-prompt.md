@@ -7,6 +7,7 @@ First read CLAUDE.md. Its hard rules apply in full (no trading, no secrets in ou
 
 ## Overrides for unattended runs
 
+- Use simple single commands: no pipes, heredocs or `cd ... &&` chains (they are blocked). Run scripts from the repository root, for example `python3 pipeline/produce.py pipeline/stories/<id>.json`.
 - Work in the repository root. Render stories ONE AT A TIME; do not start parallel renders or subagents that render.
 - Tools are restricted by an allow-list. If a tool call is denied, do not try to work around it; skip that part and report it.
 - Never print balances, share counts, cost basis, email bodies or API keys. Print counts and status only.
@@ -20,6 +21,8 @@ First read CLAUDE.md. Its hard rules apply in full (no trading, no secrets in ou
 ## If mode is "full"
 
 1. Follow docs/DAILY-RUN.md steps 1 to 7: inputs, ratings-based story choice, story files, sequential renders, QA, upload, cards, text cards, `meta/state` reset to `{"revealed": 1}`, then `meta/latest` LAST.
+1a. Duplicates: run `python3 pipeline/dedupe.py seed` once at the start. Before you write ANY story, run `python3 pipeline/dedupe.py check --url "<article url>" --title "<headline>"` and obey the verdict: `duplicate` means skip it; `similar` means skip unless the new article adds materially new facts (then say why in the report); `new` means go ahead. Immediately after choosing a story, run `python3 pipeline/dedupe.py record --id <story-id> --url "<url>" --title "<headline>"` so later candidates, including ones in the same deck, are checked against it. Never write a story, voice it or render it before it has passed `check`. Also use the article URL itself as `url` (never a site homepage or a feed URL); skip stories that have no article link.
+1b. Portfolio card: if `use_portfolio_from_robinhood` is true in config.json, build it exactly as docs/DAILY-RUN.md step 1.7 says, using the account numbers in `robinhood_accounts` (never print them): call `get_equity_positions` for each account, then run `python3 pipeline/portfolio_cards.py --date {{DATE}} --order 35 <tickers>` with the union of the symbols (tickers only, never quantities), and write the resulting `pipeline/cards_out/stocks-portfolio-*.json` files as cards `{{DATE_COMPACT}}-mine1`, `-mine2`, and so on. Do not fall back to `tickers` unless a Robinhood call actually fails; if it does, say which call failed in the report.
 2. Build `reels_per_batch` reels in batch 1 and the same number in batch 2 (batch 2 may be smaller if time runs short). Use today's ISO date for `date` and `--date`.
 3. Only write `meta/latest` if at least 8 reels rendered and uploaded successfully. Otherwise leave yesterday's deck in place and say why.
 4. Storage guard and pruning. Unattended runs cannot delete assets (the Artifact tool needs a human to confirm every delete), and the artifact allows 1 GiB. Before uploading, list the assets (Artifact tool, action `list`, scope `assets`) and read the usage line. If usage is above 800 MB, do NOT upload batch 2. If usage is above 930 MB, upload nothing, keep yesterday's deck, and say so in the report. After a successful deck, delete `cards` documents (database only) whose `date` is more than 3 days old. Never delete assets; the user prunes old assets in an interactive session.
@@ -34,8 +37,8 @@ Do NOT touch the live deck (`meta/*`, existing `cards/*`). Run these checks and 
 2. Read the `ratings` and `signals` collections (print counts only).
 3. Call the Gmail search tool once (`is:unread in:inbox newer_than:2d`, page size 3); print the count only.
 4. Call the Calendar list-events tool once for today; print the count only.
-5. Call the Robinhood portfolio tool for the individual account once; print only "ok".
-6. Fetch one RSS feed with curl (https://feeds.npr.org/1001/rss.xml); print the first item title.
+5. Call the Robinhood `get_equity_positions` tool for the FIRST account number in `robinhood_accounts` in config.json (never print the number); print only how many positions came back.
+6. Fetch one RSS feed with curl (https://feeds.npr.org/1001/rss.xml); print the first item title, then run `python3 pipeline/dedupe.py check --title "<that title>"` and print only the verdict.
 7. Write pipeline/stories/dryrun-test.json (copy pipeline/stories/example-world.json, set id to "dryrun-test"), run `cd pipeline && python3 produce.py stories/dryrun-test.json`, and print the MP4 duration with ffprobe.
 8. List the artifact's assets (Artifact tool, action `list`, scope `assets`) and print only the usage line (bytes used and the limit). Do not upload or delete anything in this check.
 9. Write a document `requests/dryrun-probe` with `{"probe": true}` using the database tool, read it back, then delete it.
